@@ -7,23 +7,41 @@
 
 using namespace std;
 
-string fileName;
-Pixel rgb;
+string fileName1,fileName2;
+Pixel rgb, arbiter;
 Background backDrop;
+Bitmap bitmap;
+vector< vector<Pixel> > pixelMatrix;
 int r,c;
 int main()
 {
-    cout<<"Enter a bitmap file name"<<endl;
-    cin>>fileName;
-    backDrop.setBitmap(fileName);
-    cout<<fileName<<" has been loaded"<<endl;
-    backDrop.setMatrix(fileName);
-    cout<<"What pixel do you wish to extract?"<<endl;
-    cin>>r>>c;
-    rgb = backDrop.getPixel(r,c);
-    cout<<"Red: "<<rgb.red<<endl<<"Blue: "<<rgb.blue<<endl<<"Green: "<<rgb.green<<endl;
-    cout<<fileName<< " is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
+    cout<<"Enter a background file and then a greenscreen file."<<endl;
+    cin>>fileName1;
+    cin>>fileName2;
+    backDrop.setBitmap(fileName1);
+    bitmap.open(fileName2);
+    cout<<fileName1<<" has been loaded"<<endl;
+    backDrop.setMatrix(fileName1);
+    //needs a check to see if they are the same size.
+    cout<<fileName1<< " is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
+    pixelMatrix = bitmap.toPixelMatrix();
+    for(int i = 0; i<backDrop.rowSize();i++)
+    {
+        for(int j=0; j<backDrop.colSize();j++)
+        {
+            arbiter= pixelMatrix[i][j];
+            if(arbiter.red <= 20 && arbiter.blue <= 20 && arbiter.green >= 80)
+            {
+                pixelMatrix[i][j] = backDrop.getPixel(i,j);
 
+            }
+            else
+            {
+            }
+        };
+    };
+    bitmap.fromPixelMatrix(pixelMatrix);
+    bitmap.save("TestOutput.bmp");
     return 0;
 };
 
