@@ -1,4 +1,33 @@
 //Author:Fred Alvarez
+#include<vector>
+#include<iostream>
+#include<fstream>
+#include"bitmap.h"
+#include"backGround.h"
+
+using namespace std;
+
+string fileName;
+Pixel rgb;
+Background backDrop;
+int r,c;
+int main()
+{
+    cout<<"Enter a bitmap file name"<<endl;
+    cin>>fileName;
+    backDrop.setBitmap(fileName);
+    cout<<fileName<<" has been loaded"<<endl;
+    backDrop.setMatrix(fileName);
+    cout<<"What pixel do you wish to extract?"<<endl;
+    cin>>r>>c;
+    rgb = backDrop.getPixel(r,c);
+    cout<<"Red: "<<rgb.red<<endl<<"Blue: "<<rgb.blue<<endl<<"Green: "<<rgb.green<<endl;
+    cout<<fileName<< " is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
+
+    return 0;
+};
+
+
 //Simple Decomp
 //Class::
 /*-Background:
