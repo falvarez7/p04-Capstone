@@ -1,14 +1,41 @@
 //Author: Frederick Alvarez
+#include<string>
+#include<iostream>
+#include<vector>
+#include"backGround.h"
+using namespace std;
 
-/*
-Function Ideas
-.getPixel(int,int)
--uses postions from for loop to access the background image pixel for replacement
+Background::Background()
+{
+dot.red = 0;
+dot.blue = 0;
+dot.green = 0;
+}
 
-.RowSize()
-self explanitory
-.ColSize()
-selfexplanatory
+void Background::setBitmap(std::string filename)
+{
+    setting.open(filename);
+}
+void Background::setMatrix(std::string filename)
+{
+    setting.open(filename);
+        backgroundMatrix = setting.toPixelMatrix();
 
-.getPixelMatrix
-*/
+}
+
+
+
+Pixel Background::getPixel(int row, int col)
+{
+    return backgroundMatrix[row][col];
+
+}
+
+int Background::rowSize()
+{
+    return backgroundMatrix.size();
+}
+int Background::colSize()
+{
+    return backgroundMatrix[0].size();
+}
