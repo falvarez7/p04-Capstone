@@ -4,53 +4,71 @@
 #include<fstream>
 #include"bitmap.h"
 #include"backGround.h"
-
+#include<sstream>
 using namespace std;
 
+stringstream numbHolder;
 char fileName[255];
 string fileName1,fileName2,holder;
 Pixel rgb, arbiter;
 Background backDrop;
-Bitmap bitmap;
+Bitmap bitmap,testBitmap;
 vector< vector<Pixel> > pixelMatrix;
 
 int r,c,counter;
 bool test = false;
 ifstream imageFile;
 vector <string> fileVector;
+string numb;
 
 int main()
 {
+//**User input of file names**
 do
 {
     cout<<"Enter a background image file"<<endl;
     //check if fileName1 is a working bitmap file;
     cin>>fileName1;
-    backDrop.setBitmap(fileName1);
-    backDrop.setMatrix(fileName1);
-    cout<<fileName1<<" is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
+    testBitmap.open(fileName1);
+    test = testBitmap.isImage();
+    if(test == true)
+    {
+        backDrop.setBitmap(fileName1);
+        backDrop.setMatrix(fileName1);
+        cout<<fileName1<<" is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
+    }
+    else
+    {
+        cout<<"Error: You've entered an invalid file name...Try Again!"<<endl;
+    }
+}
+while(test == false);
+do
+{
     cout<<"Enter a .txt file of chroma key bitmap images you wish to convert"<<endl;
     cin>>fileName;
     imageFile.open(fileName);
     test = imageFile.is_open();
     if (test == false)
     {
-        cout<<"Error"<<endl;
+        cout<<"Error: You've entered an invalid .txt file. Try again!"<<endl;
     };
 }
-    while(test == false);
+while(test == false);
     cout<<"The file "<<fileName<<" has been successfully loaded."<<endl;
-    do
-    {
-        getline(imageFile,holder);
-        if(holder!="")
+do
+{
+    getline(imageFile,holder);
+    if(holder!="")
         {
             fileVector.push_back(holder);
             counter++;
         }
-        else
-        {}
+    else
+    {
+        cout<<"A blank line which could have compromised this whole program has been avoided. Good job me!"<<endl;
     }
+}
     while(!imageFile.eof());
     for(int i = 0; i<counter;i++)
     {
@@ -78,9 +96,24 @@ do
         };
     };
     bitmap.fromPixelMatrix(pixelMatrix);
+
+
     bitmap.save("TestOutput.bmp");*/
+
+
     return 0;
 };
+/*
+for (int n=1;n<10;n++)
+    {
+    numbHolder.str("");
+    numbHolder << n;
+    numb = numbHolder.str();
+    fileVector.push_back( "outputfile"+numb+".bmp");
+    cout<<fileVector[n-1]<<endl;
+    numbHolder.flush();
+    };
+*/
 
 
 //Simple Decomp
