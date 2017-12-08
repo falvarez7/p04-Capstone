@@ -6,6 +6,8 @@
 #include"backGround.h"
 #include<sstream>
 using namespace std;
+//function prototypes
+bool sameSize(string,Background);
 
 stringstream numbHolder;
 char fileName[255];
@@ -17,6 +19,7 @@ vector< vector<Pixel> > pixelMatrix;
 
 int r,c,counter;
 bool test = false;
+bool same = false;
 ifstream imageFile;
 vector <string> fileVector;
 string numb;
@@ -39,7 +42,7 @@ do
     }
     else
     {
-        cout<<"Error: You've entered an invalid file name...Try Again!"<<endl;
+       //cout<<"Error: You've entered an invalid file name...Try Again!"<<endl;
     }
 }
 while(test == false);
@@ -61,8 +64,25 @@ do
     getline(imageFile,holder);
     if(holder!="")
         {
+            testBitmap.open(holder);
+            test = testBitmap.isImage();
+            if(test == true)
+            {
+            if(sameSize(holder,backDrop)==true)
+            {
+            cout<<"Same size"<<endl;
             fileVector.push_back(holder);
             counter++;
+            }
+            else
+            {
+            cout<<holder<<" cannot be greenscreened. it and the background are different sizes"<<endl;
+            };
+            }
+            else
+            {
+                
+            };
         }
     else
     {
@@ -76,7 +96,7 @@ do
     };
 
 /*  
-    bitmap.open(fileName2);
+    
     //needs a check to see if they are the same size.
     cout<<fileName1<< " is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
     pixelMatrix = bitmap.toPixelMatrix();
@@ -114,6 +134,47 @@ for (int n=1;n<10;n++)
     numbHolder.flush();
     };
 */
+
+//function definitions
+bool sameSize(string file_Name,Background back_Ground)
+{
+    Bitmap functionBitmap;
+    functionBitmap.open(file_Name);
+    vector< vector<Pixel> > fileMatrix = functionBitmap.toPixelMatrix();
+    if(fileMatrix.size()==back_Ground.rowSize()&&fileMatrix[0].size()==back_Ground.colSize())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Simple Decomp
