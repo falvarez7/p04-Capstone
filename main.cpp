@@ -7,15 +7,51 @@
 
 using namespace std;
 
-string fileName1,fileName2;
+char fileName[255];
+string fileName1,fileName2,holder;
 Pixel rgb, arbiter;
 Background backDrop;
 Bitmap bitmap;
 vector< vector<Pixel> > pixelMatrix;
-int r,c;
+
+int r,c,counter;
+bool test = false;
+ifstream imageFile;
+vector <string> fileVector;
+
 int main()
 {
-    cout<<"Enter a background file and then a greenscreen file."<<endl;
+do
+{
+    cout<<"Enter a .txt file of chroma key bitmap images you wish to convert"<<endl;
+    cin>>fileName;
+    imageFile.open(fileName);
+    test = imageFile.is_open();
+    if (test == false)
+    {
+        cout<<"Error"<<endl;
+    };
+}
+    while(test == false);
+    cout<<"The file "<<fileName<<" has been successfully loaded."<<endl;
+    do
+    {
+        getline(imageFile,holder);
+        if(holder!="")
+        {
+            fileVector.push_back(holder);
+            counter++;
+        }
+        else
+        {}
+    }
+    while(!imageFile.eof());
+    for(int i = 0; i<counter;i++)
+    {
+        cout<<i<<" file "<<fileVector[i]<<endl;
+    };
+
+/*    cout<<"Enter a background file and then a greenscreen file."<<endl;
     cin>>fileName1;
     cin>>fileName2;
     backDrop.setBitmap(fileName1);
@@ -30,7 +66,7 @@ int main()
         for(int j=0; j<backDrop.colSize();j++)
         {
             arbiter= pixelMatrix[i][j];
-            if(arbiter.red <= 20 && arbiter.blue <= 20 && arbiter.green >= 80)
+            if(arbiter.red <= 100 && arbiter.blue <= 100 && arbiter.green >= 80)
             {
                 pixelMatrix[i][j] = backDrop.getPixel(i,j);
 
@@ -41,7 +77,7 @@ int main()
         };
     };
     bitmap.fromPixelMatrix(pixelMatrix);
-    bitmap.save("TestOutput.bmp");
+    bitmap.save("TestOutput.bmp");*/
     return 0;
 };
 
