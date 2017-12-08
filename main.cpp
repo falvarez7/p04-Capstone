@@ -23,6 +23,12 @@ int main()
 {
 do
 {
+    cout<<"Enter a background image file"<<endl;
+    //check if fileName1 is a working bitmap file;
+    cin>>fileName1;
+    backDrop.setBitmap(fileName1);
+    backDrop.setMatrix(fileName1);
+    cout<<fileName1<<" is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
     cout<<"Enter a .txt file of chroma key bitmap images you wish to convert"<<endl;
     cin>>fileName;
     imageFile.open(fileName);
@@ -51,13 +57,8 @@ do
         cout<<i<<" file "<<fileVector[i]<<endl;
     };
 
-/*    cout<<"Enter a background file and then a greenscreen file."<<endl;
-    cin>>fileName1;
-    cin>>fileName2;
-    backDrop.setBitmap(fileName1);
+/*  
     bitmap.open(fileName2);
-    cout<<fileName1<<" has been loaded"<<endl;
-    backDrop.setMatrix(fileName1);
     //needs a check to see if they are the same size.
     cout<<fileName1<< " is "<<backDrop.colSize()<<" by "<<backDrop.rowSize()<<endl;
     pixelMatrix = bitmap.toPixelMatrix();
