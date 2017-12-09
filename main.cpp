@@ -12,6 +12,7 @@ Bitmap converter(string,Background);
 //global variables
 stringstream numbHolder;
 char fileName[255];
+char textFileName[255];
 string fileName1,fileName2,holder,numb,saveName;
 Pixel rgb;
 Background backDrop;
@@ -21,6 +22,7 @@ bool test = false;
 bool same = false;
 ifstream imageFile;
 vector <string> fileVector;
+ofstream saveFile;
 
 int main()
 {
@@ -59,6 +61,8 @@ int main()
     }   
     while(test == false);
     cout<<"The file "<<fileName<<" has been successfully loaded."<<endl;
+
+
 //**Creating the string vector to hold file names**
     do
     {
@@ -89,8 +93,18 @@ int main()
         }
     }
     while(!imageFile.eof());
+    imageFile.close();
+
+
+//Requesting and recieving file names for .txt file and converted bitmaps;
+    cout<<"What would you like your .txt file to be named?(Include .txt)"<<endl;
+    cin>>textFileName;
     cout<<"What would you like to name all of your converted images?(will have a number and .bmp appened to name)"<<endl;
     cin>>saveName;
+
+    saveFile.open(textFileName);
+
+//Converting images and saving. 
     for(int i = 0; i<counter;i++)
     {
         numbHolder.str("");
@@ -98,11 +112,12 @@ int main()
         numb = numbHolder.str();
         convertedBitmap = converter(fileVector[i],backDrop);
         convertedBitmap.save(saveName+numb+".bmp");
+        saveFile<<saveName<<numb<<".bmp"<<endl;
 
     };
 
- 
-    
+    saveFile.close();
+
     return 0;
 };
 
@@ -136,7 +151,7 @@ Bitmap converter(string file_Name, Background back_Ground)
         for(int j=0; j<backDrop.colSize();j++)
         {
             arbiter= pixelMatrix[i][j];
-            if(arbiter.red <= 50 && arbiter.blue <= 50 && arbiter.green >= 100)
+            if(arbiter.red <= 130 && arbiter.blue <= 130 && arbiter.green >= 100)
             {
                 pixelMatrix[i][j] = backDrop.getPixel(i,j);
 
