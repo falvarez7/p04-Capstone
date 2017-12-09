@@ -2,7 +2,7 @@
 Final Project for CSCI111
 
 ## Input/Output
-[main.cpp lines 50-51](main.cpp#L50)
+[main.cpp lines 51-52](main.cpp#L51)
 
 This example demonstrates both input and output. Line 45 outputs a request for a bitmap file for the background image.Line 46 receives the bitmap file name and stores it in a string variable fileName1 for future use.
 
@@ -13,7 +13,7 @@ This example demonstrates output because there is a cout statement which updates
 ## Control Flow
 
 ### If
-[main.cpp lines 74-76](/main.cpp#L74)
+[main.cpp lines 75-77](/main.cpp#L75)
 
 This was a good use of if because the do.while loop and the if statement have opposite conditions. This means if the proper input for the do.while loop, the if statement will display the error message and let the user know he needs to retry.
 
@@ -39,53 +39,53 @@ I used this for loop, so I could cycle traverse the vector<string> over its leng
 
 ### Do.while
 
-[main.cpp lines 48-64](/main.cpp#L48)
+[main.cpp lines 49-64](/main.cpp#L49)
 
 I used a do.while loop to repeatedly ask the user for a usable bitmap file to use as the background. This is important because the rest of the program is dependent upon the backgrounds characteristics. 
 
 ## Data Structure
 
 ### Vector
-[main.cpp line 95](/main.cpp#L95)
+[main.cpp line 98](/main.cpp#L98)
 
 I used the vector <string> fileVector here in order to take the file names from the input file and using push_back() add them to fileVector. This allows me to edit them individually in a loop.
 
 
 ### Matrix 
 
-[main.cpp lines 174-182](/main.cpp#L174)
+[main.cpp lines 175-182](/main.cpp#L175)
 
 I used a matrix here because a two dimensional vector of pixels is the return type of .toPixelMatrix() and it allows me to individually edit the images pixels based on their position and characteristics.
 
 ## Function
 
-[main.cpp lines 153-167](/main.cpp#L153)
+[main.cpp lines 156-167](/main.cpp#L156)
 
 This function has a boolean return type because it tests whether or not the parameters are the same size which is either true or false. It is pass by value because the parameters of this function will not be edited by the function.
 
-[main.cpp lines 170-190](/main.cpp#L170)
+[main.cpp lines 173-190](/main.cpp#L173)
 
 This function has a void return type and is pass by reference because instead of returning anything, it will edit the Bitmap parameter within the function, and thus does not need to return anything. 
 
-[backGround.cpp lines 28-32](/backGround.cpp#L28)
+[backGround.cpp lines 31-35](/backGround.cpp#L31)
 
 This function has a Pixel return type and is pass by value. It simply returns the pixel at the position described by its parameters. This simplified the converter function significantly. 
 
 
 ## FileIO
 
-[main.cpp lines 71-86](/main.cpp#L71)
+[main.cpp lines 73-88](/main.cpp#L73)
 
 I used the istream imageFile to open the inputFile and used getline to retrieve all the filenames from the file. 
 
-[main.cpp lines 129-143](/main.cpp#L129)
+[main.cpp lines 131-149](/main.cpp#L131)
 
-I used the ostream saveFile to create a text file and then list the converted bitmaps produced in the program and then save the list to a text file.
+I used the ostream saveFile to create a text file and then list the converted bitmaps produced in the program and then save the list to a text file. I also close the file when I am done using it.
 
 
 ## Class
 
-[backGround.h lines 10-22](/backGround.h#L10)
+[backGround.h lines 10-28](/backGround.h#L10)
 
 This Background class has its own dedicated files and has both private and public members each of the functions and member variables are used. Using the Background class instead of the Bitmap class expediated the conversion process and the dimension comparison significantly. 
 
