@@ -1,29 +1,41 @@
 //Author:Fred Alvarez
-#include<vector>
 #include<iostream>
 #include<fstream>
+#include<sstream>
+#include<vector>
+
+//Header files
 #include"bitmap.h"
 #include"backGround.h"
-#include<sstream>
+
+
 using namespace std;
+
+
 //function prototypes
 bool sameSize(string,Background);
-Bitmap converter(string,Background);
-//global variables
-stringstream numbHolder;
+void converter(Bitmap &,Background);
+
+
+//variables
 char fileName[255];
 char textFileName[255];
-string fileName1,fileName2,holder,numb,saveName;
-Pixel rgb;
-Background backDrop;
-Bitmap bitmap,testBitmap,convertedBitmap;
 int counter;
 bool test = false;
-bool same = false;
-ifstream imageFile;
 vector <string> fileVector;
-ofstream saveFile;
+string fileName1,fileName2,holder,numb,saveName;
 
+//Created class variables
+Background backDrop;
+Bitmap bitmap,testBitmap,convertedBitmap;
+
+//Stream variables
+ifstream imageFile;
+ofstream saveFile;
+stringstream numbHolder;
+
+
+//main function
 int main()
 {
 
@@ -64,6 +76,7 @@ int main()
 
 
 //**Creating the string vector to hold file names**
+    cout<<"Checking "<<fileName<<"'s bitmap files for errors."<<endl;
     do
     {
         getline(imageFile,holder);
@@ -81,7 +94,7 @@ int main()
                 }
                 else
                 {
-                    cout<<holder<<" cannot be greenscreened. Image dimensions must match"<<endl;
+                    cout<<"Error: "<<holder<<"'s dimensions do not match"<<endl;
                 }
             }
             else
@@ -107,13 +120,16 @@ int main()
 //Converting images and saving. 
     for(int i = 0; i<counter;i++)
     {
+        cout<<"Working..."<<endl;
+        bitmap.open(fileVector[i]);
+        //sstream use for variable file names
         numbHolder.str("");
         numbHolder<<i+1;
         numb = numbHolder.str();
-        convertedBitmap = converter(fileVector[i],backDrop);
-        convertedBitmap.save(saveName+numb+".bmp");
+        converter(bitmap,backDrop);
+        bitmap.save(saveName+numb+".bmp");
         saveFile<<saveName<<numb<<".bmp"<<endl;
-
+        cout<<saveName<<numb<<".bmp has been converted and saved successfully to "<<textFileName<<"."<<endl;
     };
 
     saveFile.close();
@@ -139,11 +155,9 @@ bool sameSize(string file_Name,Background back_Ground)
 }
 
 
-Bitmap converter(string file_Name, Background back_Ground)
+void converter(Bitmap & functionBitmap, Background back_Ground)
 {
-    Bitmap functionBitmap;
     vector< vector<Pixel> > pixelMatrix;
-    functionBitmap.open(file_Name);
     Pixel arbiter;
     pixelMatrix = functionBitmap.toPixelMatrix();
     for(int i = 0; i<backDrop.rowSize();i++)
@@ -162,6 +176,5 @@ Bitmap converter(string file_Name, Background back_Ground)
         };
     };
     functionBitmap.fromPixelMatrix(pixelMatrix);
-    return functionBitmap;
 }
 
