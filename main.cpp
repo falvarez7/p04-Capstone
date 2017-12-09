@@ -1,4 +1,11 @@
 //Author:Fred Alvarez
+
+
+/*Brief Description: This file will accept  two inputs, a bitmap image which will serve as the backdrop, and a text file, which has a list of images to add the backdrop too.
+It will eliminate any bitmap files from the text file which do not match the necessary requirements(isImage and same dimensions) before processing.
+Once all the images are processed, you will be asked for two file names. One is for a text file which containss the names of all the converted bitmap files made. Two is for the processed bitmap names, which will be appended with a number.
+*/
+
 #include<iostream>
 #include<fstream>
 #include<sstream>
@@ -20,10 +27,9 @@ void converter(Bitmap &,Background);
 //variables
 char fileName[255];
 char textFileName[255];
-int counter;
 bool test = false;
 vector <string> fileVector;
-string fileName1,fileName2,holder,numb,saveName;
+string fileName1,holder,numb,saveName;
 
 //Created class variables
 Background backDrop;
@@ -42,7 +48,7 @@ int main()
 //**User input of background image**
     do
     {
-        cout<<"Enter a background image file"<<endl;
+        cout<<"Enter a background bitmap image."<<endl;
         cin>>fileName1;
         testBitmap.open(fileName1);
         test = testBitmap.isImage();
@@ -62,17 +68,17 @@ int main()
 //**User input of .txt file of image names**
     do
     {
-        cout<<"Enter a .txt file of chroma key bitmap images you wish to convert"<<endl;
+        cout<<"Enter a text file with a list of greenscreen images."<<endl;
         cin>>fileName;
         imageFile.open(fileName);
         test = imageFile.is_open();
         if (test == false)
         {
-            cout<<"Error: You've entered an invalid .txt file. Try again!"<<endl;
+            cout<<"Error: You've entered an invalid text file. Try again!"<<endl;
         };
     }   
     while(test == false);
-    cout<<"The file "<<fileName<<" has been successfully loaded."<<endl;
+    cout<<fileName<<" has been successfully loaded."<<endl;
 
 
 //**Creating the string vector to hold file names**
@@ -80,7 +86,7 @@ int main()
     do
     {
         getline(imageFile,holder);
-        if(holder!="")
+        if(holder!="" && holder!=fileName1)
         {
             testBitmap.open(holder);
             test = testBitmap.isImage();
@@ -88,19 +94,27 @@ int main()
             {
                 if(sameSize(holder,backDrop)==true)
                 {
-                    //cout<<"Same size"<<endl;
+                    cout<<holder<<" has passed all tests."<<endl;
                     fileVector.push_back(holder);
-                    counter++;
                 }
+
                 else
                 {
-                    cout<<"Error: "<<holder<<"'s dimensions do not match"<<endl;
+                    cout<<holder<<" could be opened, but its dimensions do not match "<<fileName<<endl<<"It will not be converted."<<endl;
                 }
             }
+            
             else
             {    
+                cout<<"It will not be converted."<<endl;
             }
         }
+        else if(holder!="" && holder == fileName1) 
+        {
+            cout<<holder<<" is the same file as the background image."<<endl<<"It will not be converted."<<endl;
+
+        }
+        //skipping blank lines
         else
         {
         }
@@ -110,15 +124,15 @@ int main()
 
 
 //Requesting and recieving file names for .txt file and converted bitmaps;
-    cout<<"What would you like your .txt file to be named?(Include .txt)"<<endl;
+    cout<<"What would you like your list text file to be named?"<<endl;
     cin>>textFileName;
-    cout<<"What would you like to name all of your converted images?(will have a number and .bmp appened to name)"<<endl;
+    cout<<"What would you like to name the converted images?(Without.txt)"<<endl;
     cin>>saveName;
-
     saveFile.open(textFileName);
 
+
 //Converting images and saving. 
-    for(int i = 0; i<counter;i++)
+    for(int i = 0; i<fileVector.size();i++)
     {
         cout<<"Working..."<<endl;
         bitmap.open(fileVector[i]);
@@ -138,6 +152,7 @@ int main()
 };
 
 //function definitions
+/*sameSize takes a string(bitmap file name), and a Background variable and compares the pixel matrices to see if they're the same size or not and returns a boolean value */
 bool sameSize(string file_Name,Background back_Ground)
 {
     Bitmap functionBitmap;
@@ -154,7 +169,7 @@ bool sameSize(string file_Name,Background back_Ground)
 
 }
 
-
+/*Converter recieves a Bitmap and a Background and uses the .getPixel Background function to edit the Bitmap image.  */
 void converter(Bitmap & functionBitmap, Background back_Ground)
 {
     vector< vector<Pixel> > pixelMatrix;
